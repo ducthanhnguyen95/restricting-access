@@ -20,11 +20,13 @@ public class ProjectConfig {
         var manager = new InMemoryUserDetailsManager();
         var user1 = User.withUsername("john")
                 .password("12345")
-                .authorities("read")
+//                .authorities("ROLE_ADMIN")
+                .roles("ADMIN")
                 .build();
         var user2 = User.withUsername("jane")
                 .password("12345")
-                .authorities("read", "write", "delete")
+//                .authorities("ROLE_MANAGER")
+                .roles("MANAGER")
 
                 .build();
         manager.createUser(user1);
@@ -40,9 +42,9 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic(Customizer.withDefaults());
-        String expression = "hasAuthority('read') and !hasAuthority('delete')";
-//        http.authorizeHttpRequests(c -> c.anyRequest().hasAnyAuthority("READ", "WRITE"));
-        http.authorizeHttpRequests(c -> c.anyRequest().access(new WebExpressionAuthorizationManager(expression)));
+//        String expression = "hasAuthority('read') and !hasAuthority('delete')";
+        http.authorizeHttpRequests(c -> c.anyRequest().hasRole("ADMIN"));
+//        http.authorizeHttpRequests(c -> c.anyRequest().access(new WebExpressionAuthorizationManager(expression)));
         return http.build();
     }
 }
