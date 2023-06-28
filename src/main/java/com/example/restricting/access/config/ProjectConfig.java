@@ -43,7 +43,7 @@ public class ProjectConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic(Customizer.withDefaults());
 //        String expression = "hasAuthority('read') and !hasAuthority('delete')";
-        http.authorizeHttpRequests(c -> c.anyRequest().hasRole("ADMIN"));
+        http.authorizeHttpRequests(c -> c.anyRequest().denyAll());
 //        http.authorizeHttpRequests(c -> c.anyRequest().access(new WebExpressionAuthorizationManager(expression)));
         return http.build();
     }
